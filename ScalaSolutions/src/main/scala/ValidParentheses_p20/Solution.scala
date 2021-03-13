@@ -14,9 +14,6 @@ import scala.collection.mutable.Stack
  */
 object Solution {
 
-  val OpenToClose: Map[Char, Char] = Map('{' -> '}', '[' -> ']', '(' -> ')')
-  val CloseToOpen: Map[Char, Char] = OpenToClose.map(_.swap)
-
   def main(args: Array[String]): Unit = {
     println(!isValid("["))
     println(isValid("()[]{}")) // all should be true
@@ -31,63 +28,22 @@ object Solution {
   }
 
   def isValid(s: String): Boolean = {
-    stackParenthesisSolution(s) // Stack Solution
-    //parenthesesAreBalanced(s) // Tail recursion solution
-  }
-
-  import scala.collection.mutable.Stack
-  /**
-   * Stack solution
-   */
-  def stackParenthesisSolution(s: String): Boolean = {
+    import scala.collection.mutable.Stack
     val stack = new Stack[Char]()
-    if (s.size == 0) stack.push('f')
-    
-    s.foreach(char => {
+    val OpenToClose: Map[Char, Char] = Map('{' -> '}', '[' -> ']', '(' -> ')')
+
+    def checkPar(char: Char): Boolean = {
       if (OpenToClose.contains(char)) {
         stack.push(char)
+        true
+      } else if (stack.size > 0 && OpenToClose.get(stack.top) == Some(char)) {
+        stack.pop()
+        true
       } else {
-        if (stack.size > 0 && OpenToClose.get(stack.top) == Some(char))
-          stack.pop()
-          else
-          stack.push('f')
+        false
       }
-    })
-
-    stack.size == 0
-  }
-
-  /**
-   * Tail recursion solution 
-   * is taken from https://www.scala-algorithms.com/ParenthesesTailRecursive/
-   *
-   * @param
-   * @return
-   */
-  def parenthesesAreBalanced(s: String): Boolean = {
-    if (s.isEmpty) true
-    else {
-      @scala.annotation.tailrec
-      def go(position: Int, stack: List[Char]): Boolean = {
-        if (position == s.length) stack.isEmpty
-        else {
-          val char = s(position)
-          val isOpening = OpenToClose.contains(char)
-          val isClosing = CloseToOpen.contains(char)
-          if (isOpening) go(position + 1, char :: stack)
-          else if (isClosing) {
-            val expectedCharForMatching = CloseToOpen(char)
-            stack match {
-              case `expectedCharForMatching` :: rest =>
-                go(position + 1, rest)
-              case _ =>
-                false
-            }
-          } else false
-        }
-      }
-
-      go(position = 0, stack = List.empty)
     }
+
+    s.size > 0 && s.forall(checkPar) && stack.size == 0
   }
 }

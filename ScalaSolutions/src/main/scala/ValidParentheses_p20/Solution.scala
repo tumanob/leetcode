@@ -14,9 +14,32 @@ import scala.collection.mutable.Stack
  */
 object Solution {
 
+  import scala.collection.mutable.Stack
+  val stack = new Stack[Char]()
+  val OpenToClose: Map[Char, Char] = Map('{' -> '}', '[' -> ']', '(' -> ')')
+
+  def checkPar(char: Char): Boolean = 
+    if (OpenToClose.contains(char)) {
+      stack.push(char)
+      true
+    } else if (stack.size > 0 && OpenToClose.get(stack.top) == Some(char)) {
+      stack.pop()
+      true
+    } else {
+      false
+    }
+  
+  def isValid(s: String): Boolean = {
+    stack.clear()
+    
+    s.size > 0 && // check edge case for empty string
+      s.forall(checkPar) && // run validation agains string elements
+      stack.size == 0 // if after check stack is not empty this is fail case
+  }
+
   def main(args: Array[String]): Unit = {
-    println(!isValid("["))
-    println(isValid("()[]{}")) // all should be true
+    println(!isValid("[")) // all should be true
+    println(isValid("()[]{}")) 
     println(isValid("()"))
     println(!isValid("(]"))
     println(isValid("[()]"))
@@ -25,25 +48,5 @@ object Solution {
     println(!isValid("{{[]()}}}}"))
     println(!isValid("{{[](A}}}}"))
     println(!isValid("{[(])}"))
-  }
-
-  def isValid(s: String): Boolean = {
-    import scala.collection.mutable.Stack
-    val stack = new Stack[Char]()
-    val OpenToClose: Map[Char, Char] = Map('{' -> '}', '[' -> ']', '(' -> ')')
-
-    def checkPar(char: Char): Boolean = {
-      if (OpenToClose.contains(char)) {
-        stack.push(char)
-        true
-      } else if (stack.size > 0 && OpenToClose.get(stack.top) == Some(char)) {
-        stack.pop()
-        true
-      } else {
-        false
-      }
-    }
-
-    s.size > 0 && s.forall(checkPar) && stack.size == 0
   }
 }

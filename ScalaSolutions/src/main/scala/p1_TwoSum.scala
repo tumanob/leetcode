@@ -1,5 +1,3 @@
-package TwoSum_p1
-
 /**
  * https://leetcode.com/problems/two-sum/
  * Given an array of integers nums and an integer target, 
@@ -9,7 +7,7 @@ package TwoSum_p1
  * You can return the answer in any order.
  * @tags: easy
  */
-object Solution {
+object p1_TwoSum {
 
   def twoSum(nums: Array[Int], target: Int): Array[Int] = {
     def twoSum(index: Int, previous: Map[Int, Int]): Array[Int] = {

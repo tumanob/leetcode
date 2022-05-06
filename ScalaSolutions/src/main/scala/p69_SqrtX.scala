@@ -1,12 +1,10 @@
-package Sqrt_p69
-
 /**
  * https://leetcode.com/problems/sqrtx/
  * Given a non-negative integer x, compute and return the square root of x.
  * Since the return type is an integer, the decimal digits are truncated, 
  * and only the integer part of the result is returned.
  */
-object Solution {
+object p69_SqrtX {
   /**
    * I am gonna Use Newton's method to calculate it as it is fun 
    * and used in many functional programing courses as a reference

@@ -1,5 +1,3 @@
-package ValidParentheses_p20
-
 import scala.collection.mutable.Stack
 
 /**
@@ -12,7 +10,7 @@ import scala.collection.mutable.Stack
  *
  * @tags: easy
  */
-object Solution {
+object p20_ValidParentheses {
 
   import scala.collection.mutable.Stack
   val stack = new Stack[Char]()
